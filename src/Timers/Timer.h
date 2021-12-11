@@ -7,7 +7,7 @@
 #include <Arduino.h>
 
 
-class Timer
+class xTimer
 {
     private:
 
@@ -53,7 +53,7 @@ class Timer
         /**
 	    * Конструктор класса
 	    */
-        Timer(long millisecconds)
+        xTimer(long millisecconds)
         {
             time = millisecconds;
         }

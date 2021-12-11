@@ -15,9 +15,6 @@ class TimeProgramm
     //Время деактивации, мин
     uint16_t  EndTime;
 
-    //Указатель на экземпляр класса часов реального времени
-    RTC_DS1307* RTC;
-
     //Результат
     bool Result;
 
@@ -25,17 +22,14 @@ class TimeProgramm
     TimeProgramm();
 
     //Конструктор класса
-    TimeProgramm(uint16_t starttime, uint16_t endtime, RTC_DS1307* rtc);
+    TimeProgramm(uint16_t starttime, uint16_t endtime);
 
     //Обновление данных. Метод вызывается в loop
     //Управляет логикой
-    bool Update();
+    bool Update(uint16_t minutes);
 
 
    private:
-
-          //Пин, к которому подключено реле
-          int pin;
 
           //Текущая дата
           DateTime CurrentDateTime;
