@@ -12,9 +12,6 @@ class ShortRelayActivateProgramm
     //Результат
     bool Result;
 
-    //Таймер
-    xTimer* timer;
-
     //Конструктор класса
     ShortRelayActivateProgramm(long ms);
 
@@ -30,10 +27,18 @@ class ShortRelayActivateProgramm
     //Флаг для определения готовности
     bool ready = true;
 
-    //Метод для активации программы
-    void StartProgramm();
+    //Флаг, указывающий, что
+    //программа работает
+    bool isrun = false;
 
+    //Время, когда запушена программа
+    long start_millis;
 
+    //Текущее время
+    long current_millis;
+
+    //Определение тика
+    bool _isTick();
 };
 
 #endif

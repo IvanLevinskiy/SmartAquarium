@@ -13,14 +13,14 @@ bool TermocoupleProgramm::Update(double currentTemperature)
     //выше максимума
     if(currentTemperature > HighLimit)
     {
-        Result = false;
+        Result = true;
     }
 
     //Включение при понижении температуры
     //меньше минимума
     if(currentTemperature <= LowLimit)
     {
-        Result = true;
+        Result = false;
     }
 
     //Возврат результата

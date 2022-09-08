@@ -17,7 +17,7 @@ RTC_DS1307 rtc;
 DateTime now;
 
 //Кнопка
-xButton xbutton = xButton(8);
+xButton xbutton = xButton(A0);
 
 // Пин, к которому подключен датчик температуры
 #define ONE_WIRE_BUS 9
@@ -75,14 +75,14 @@ TimeProgramm programm_10 = TimeProgramm(540, 780);
 //ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 1
 //Время включения  990 мин (16:30)
 //Время выключения 1290 мин (21:30)
-TimeProgramm programm_11 = TimeProgramm(1290, 780);
+TimeProgramm programm_11 = TimeProgramm(990, 1290);
 
-//ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 1
+//ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 2
 //Время включения  510 мин (08:30)
 //Время выключения 1260 мин (21:00)
 TimeProgramm programm_20 = TimeProgramm(510, 1260);
 
-//ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 1
+//ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 3
 //кратковременное включение реле на 5 сек в 10:10
 ShortRelayActivateProgramm programm_30 = ShortRelayActivateProgramm(5000);
 
@@ -93,7 +93,7 @@ TimeProgramm programm_40 = TimeProgramm(609, 614);
 
 //ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 4
 //Активация реле на 5 мин при нажатии кнопки
-ShortRelayActivateProgramm programm_41 = ShortRelayActivateProgramm(30000);
+ShortRelayActivateProgramm programm_41 = ShortRelayActivateProgramm(300000);
 
 //ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 5
 //Реле 5 на 5 сек в 09.00
@@ -106,12 +106,12 @@ ShortRelayActivateProgramm programm_60 = ShortRelayActivateProgramm(5000);
 //ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 7
 //активация при падении температуры до 25 градусов
 //деактивация при превышении темпетауры свыше 27 градусов
-TermocoupleProgramm programm_70 = TermocoupleProgramm(25.0, 27.0);
+TermocoupleProgramm programm_70 = TermocoupleProgramm(27.0, 25.0);
 
 //ПРОГРАММА ДЛЯ ВКЛЮЧЕНИЯ РЕЛЕ 8
 //активация при падении температуры до 26 градусов
 //деактивация при превышении темпетауры свыше 28 градусов
-TermocoupleProgramm programm_80 = TermocoupleProgramm(26.0, 28.0);
+TermocoupleProgramm programm_80 = TermocoupleProgramm(28.0, 26.0);
 
 #pragma endregion ПРОГРАММА ДЛЯ РЕЛЕ
 
@@ -160,7 +160,7 @@ void setup()
   lcd.init();                   
 
   //Включение подсветки LCD дисплея        
-  lcd.backlight();                      
+  lcd.backlight();          
 
   //Инициализация связи часов реального
   //времени с микроконтроллером
@@ -185,6 +185,7 @@ void setup()
 //Количество минут с начала
 //суток
 uint16_t CurrentMinute;
+
 
 //Бесконечный цикл
 void loop() 
@@ -247,6 +248,7 @@ void loop()
 
   //Получение даты-времени из RTC
   now = rtc.now();
+
 
   //Вывод времени в lcd
   lcd.setCursor(0,0);

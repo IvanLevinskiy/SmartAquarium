@@ -6,21 +6,20 @@ ShortRelayActivateProgramm::ShortRelayActivateProgramm(long ms)
     this->ms = ms;
 }
 
-//Метод для активации программы
-void ShortRelayActivateProgramm::StartProgramm()
+//Определение события тика
+bool ShortRelayActivateProgramm::_isTick()
 {
-    //Удаление указателя на таймер
-    delete timer;
+    //Получение текущего времени
+    current_millis = millis();
 
-    //Создание нового экземпляра таймера
-    timer = new xTimer(ms);
-
-    //Запуск таймера
-    timer->Start();
-
-    //Установка результата
-    Result = true;
-
+    if (current_millis >= start_millis) 
+    {   
+        return (current_millis >= (start_millis + ms));
+    } 
+    else  
+    {   
+        return(current_millis >=(4294967295 - start_millis + ms));
+    }
 }
 
 //Обновление данных. Метод вызывается в loop
@@ -31,32 +30,40 @@ bool ShortRelayActivateProgramm::Update(bool trigger)
     //программы
     if(trigger == true && ready == true)
     {
-        StartProgramm();
+        //Запоминание времени, когда 
+        //сработал триггер
+        this->start_millis = millis();
+        isrun = true;
         ready = false;
+        Result = true;
+        Serial.print(start_millis);
+        Serial.println("click");
     }
 
-    //Защита от нулевого 
-    //указателя на объект timer
-    if(timer == NULL)
+    //Взвод флага готовности по окончанию
+    //программы и сбросу сигнала триггекра
+    if(trigger == false && isrun == false)
     {
-        Result = false;
+        this->ready = true;
+        this->Result = false;
+    }
+
+    //Если программа не выполняется-
+    //выход
+    if(this->isrun == false )
+    {
+        this->Result = false;
         return false;
     }
 
-    //Обновление таймера
-    timer->Update();
-
-    //Если сработал таймер
-    //деактивирует результат
-    //выподнения программы
-    if(timer->IsTick())
+    //Если время тика настало
+    if(_isTick() == true)
     {
         Result = false;
-        ready = true;
+        isrun = false;
     }
 
     //Возврат результата
     return Result;
-
-
 }
+
